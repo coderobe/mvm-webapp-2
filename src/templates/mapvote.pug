@@ -1,16 +1,37 @@
 .card.card-content
   .media-content
-    h1.title.is-5 Most Valuable Map
-    h2.subtitle.is-6 ESL-Style CSGO Map Vote site
     .columns
+      .column.is-3
+        h1.title.is-5 Most Valuable Map
+        h2.subtitle.is-6 ESL-Style CSGO Map Vote site
       .column
+        span.is-6
+          | Username: {{ app.user.name+" " }}
+          a(v-on:click="changename") edit
+        br
+        span.is-6
+          | Lobby: {{ app.user.lobby+" " }}
+          a(v-on:click="changelobby") edit
+    .columns
+      .column.is-2
         span(v-for="user in users")
           span.title.is-6(v-bind:class="{'mvm-turn': (turn == user.id)}")
-            | {{ user.name }} 
+            | {{ user.name+" " }}
           span.subtitle.is-6 ({{ user.id }})
           br
       .column
-        span(v-for="map in maps")
-          span.title.is-6(v-bind:class="{'mvm-banned': !map[1]}")
-            | {{ map[0] }}
-          br
+        table.table
+          thead
+            tr
+              th Map
+              th Status
+          tfoot
+            tr
+              th Map
+              th Status
+          tbody
+            tr(v-for="map in maps")
+              td.title.is-6
+                | {{ map[0] }}
+              td.title.is-6(v-bind:class="{'mvm-banned': !map[1]}")
+                | {{ (map[1]) ? "Available" : "Banned" }}

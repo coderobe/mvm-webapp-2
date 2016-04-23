@@ -36,9 +36,16 @@ module.exports = {
         content: require("./templates/mapvote.pug")(),
         maps: [],
         users: [],
+        app: window.app,
         turn: null,
       },
       methods: {
+        changelobby: function(){
+          app.do.select.lobby()
+        },
+        changename: function(){
+          app.do.select.username()
+        },
         changemaps: function(m, mo) {
           let new_maps = []
           _.each(m, function(v,k){

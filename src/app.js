@@ -32,6 +32,7 @@ app.do.select = {
     if(_.isNull(lobby) || _.isEmpty(lobby)){
       app.do.select.lobby(lobby)
     }else{
+      location.hash = lobby
       app.notification.alert(1, "Joining "+lobby, 1)
       await psleep(500)
       app.user.lobby = lobby
@@ -48,10 +49,16 @@ app.do.select = {
     if(_.isNull(username) || _.isEmpty(username)){
       app.do.select.username(username)
     }else{
-      app.notification.alert(1, "Hello "+username, 1)
-      await psleep("1 second")
-      app.user.name = username
-      app.socket.send("IDENTIFY "+username)
+      Cookie.edit("mvm", {username: username})
+      if(app.page.current == "mapvote"){
+        location.hash = app.user.lobby
+        location.reload()
+      }else{
+        app.notification.alert(1, "Hello "+username, 1)
+        await psleep("1 second")
+        app.user.name = username
+        app.socket.send("IDENTIFY "+username)
+      }
     }
   },
 }

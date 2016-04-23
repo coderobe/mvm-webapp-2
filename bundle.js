@@ -7856,19 +7856,20 @@
 	            }
 
 	            app.do.select.lobby(_lobby);
-	            _context.next = 15;
+	            _context.next = 16;
 	            break;
 
 	          case 10:
+	            location.hash = _lobby;
 	            app.notification.alert(1, "Joining " + _lobby, 1);
-	            _context.next = 13;
+	            _context.next = 14;
 	            return psleep(500);
 
-	          case 13:
+	          case 14:
 	            app.user.lobby = _lobby;
 	            app.socket.send("JOIN " + _lobby);
 
-	          case 15:
+	          case 16:
 	          case "end":
 	            return _context.stop();
 	        }
@@ -7908,19 +7909,32 @@
 	            }
 
 	            app.do.select.username(_username);
-	            _context2.next = 15;
+	            _context2.next = 21;
 	            break;
 
 	          case 10:
+	            Cookie.edit("mvm", { username: _username });
+
+	            if (!(app.page.current == "mapvote")) {
+	              _context2.next = 16;
+	              break;
+	            }
+
+	            location.hash = app.user.lobby;
+	            location.reload();
+	            _context2.next = 21;
+	            break;
+
+	          case 16:
 	            app.notification.alert(1, "Hello " + _username, 1);
-	            _context2.next = 13;
+	            _context2.next = 19;
 	            return psleep("1 second");
 
-	          case 13:
+	          case 19:
 	            app.user.name = _username;
 	            app.socket.send("IDENTIFY " + _username);
 
-	          case 15:
+	          case 21:
 	          case "end":
 	            return _context2.stop();
 	        }
@@ -39351,9 +39365,16 @@
 	        content: __webpack_require__(409)(),
 	        maps: [],
 	        users: [],
+	        app: window.app,
 	        turn: null
 	      },
 	      methods: {
+	        changelobby: function () {
+	          app.do.select.lobby();
+	        },
+	        changename: function () {
+	          app.do.select.username();
+	        },
 	        changemaps: function (m, mo) {
 	          let new_maps = [];
 	          _.each(m, function (v, k) {
@@ -39665,7 +39686,7 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2><div class=\"columns\"><div class=\"column\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': (turn == user.id)}\" class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column\"><span v-for=\"map in maps\"><span v-bind:class=\"{'mvm-banned': !map[1]}\" class=\"title is-6\">{{ map[0] }}</span><br></span></div></div></div></div>");;return buf.join("");
+	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column\"><span class=\"is-6\">Username: {{ app.user.name+\" \" }}<a v-on:click=\"changename\">edit</a></span><br><span class=\"is-6\">Lobby: {{ app.user.lobby+\" \" }}<a v-on:click=\"changelobby\">edit</a></span></div></div><div class=\"columns\"><div class=\"column is-2\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': (turn == user.id)}\" class=\"title is-6\">{{ user.name+\" \" }}</span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column\"><table class=\"table\"><thead><tr><th>Map</th><th>Status</th></tr></thead><tfoot><tr><th>Map</th><th>Status</th></tr></tfoot><tbody><tr v-for=\"map in maps\"><td class=\"title is-6\">{{ map[0] }}</td><td v-bind:class=\"{'mvm-banned': !map[1]}\" class=\"title is-6\">{{ (map[1]) ? \"Available\" : \"Banned\" }}</td></tr></tbody></table></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },
