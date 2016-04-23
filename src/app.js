@@ -108,6 +108,11 @@ app.do.run = () => {
           app.page.object.changemaps(data.MAPS, data.MAPS_OUT)
         }
         break
+      case "ERROR":
+        let al = data.DESCRIPTION
+        al = al.charAt(0) + al.toLowerCase().slice(1)
+        app.notification.alert(2, al, 1)
+        break
     }
   }
 }

@@ -7984,7 +7984,7 @@
 	  }));
 	  app.socket.onmessage = function () {
 	    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(message) {
-	      var type, data, hash, lobby, users;
+	      var type, data, hash, lobby, users, al;
 	      return _regenerator2.default.wrap(function _callee5$(_context5) {
 	        while (1) switch (_context5.prev = _context5.next) {
 	          case 0:
@@ -7995,7 +7995,7 @@
 	            console.log(type);
 	            console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 15 : 17;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 15 : _context5.t0 === "ERROR" ? 17 : 21;
 	            break;
 
 	          case 8:
@@ -8004,11 +8004,11 @@
 
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 17);
+	            return _context5.abrupt("break", 21);
 
 	          case 13:
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 17);
+	            return _context5.abrupt("break", 21);
 
 	          case 15:
 	            if (app.page.current = "mapvote") {
@@ -8020,9 +8020,16 @@
 	              app.page.object.users = users;
 	              app.page.object.changemaps(data.MAPS, data.MAPS_OUT);
 	            }
-	            return _context5.abrupt("break", 17);
+	            return _context5.abrupt("break", 21);
 
 	          case 17:
+	            al = data.DESCRIPTION;
+
+	            al = al.charAt(0) + al.toLowerCase().slice(1);
+	            app.notification.alert(2, al, 1);
+	            return _context5.abrupt("break", 21);
+
+	          case 21:
 	          case "end":
 	            return _context5.stop();
 	        }
