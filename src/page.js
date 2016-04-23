@@ -40,11 +40,10 @@ module.exports = {
         turn: null,
       },
       methods: {
-        vote: {
-          start: function(){
+        votestart: function(){
             app.socket.send("START")
-          },
-          reset: function(){
+        },
+        votereset: function(){
             app.socket.send("RESET")
           },
         },
