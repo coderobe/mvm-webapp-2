@@ -40,6 +40,14 @@ module.exports = {
         turn: null,
       },
       methods: {
+        vote: {
+          start: function(){
+            app.socket.send("START")
+          },
+          reset: function(){
+            app.socket.send("RESET")
+          },
+        },
         changelobby: function(){
           app.do.select.lobby()
         },

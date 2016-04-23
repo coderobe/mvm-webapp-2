@@ -17,8 +17,8 @@
                 a(v-on:click="changelobby") edit
               .column
               .column.is-narrow
-                a.button.buttonmix-left.is-warning.actionbutton Reset vote
-                a.button.buttonmix-right.is-success.actionbutton Start voting
+                a.button.buttonmix-left.is-warning.actionbutton(v-on:click="vote.reset") Reset vote
+                a.button.buttonmix-right.is-success.actionbutton(v-on:click="vote.start") Start voting
     .columns
       .column.is-3
         span(v-for="user in users")
