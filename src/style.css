@@ -53,3 +53,57 @@ html, body {
 .column {
   overflow: auto;
 }
+.uinfo-col {
+  padding: 0px !important;
+  overflow: hidden;
+}
+.uinfo-head {
+  padding-top: 2px !important;
+  padding-left: 5px !important;
+  padding-bottom: 2px !important;
+  padding-right: 5px !important;
+}
+.uinfo-body {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+.buttonmix-left {
+  border-radius: 0px !important;
+  border-top-left-radius: 3px !important;
+  border-bottom-left-radius: 3px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.buttonmix-right {
+  border-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+}
+.actionbutton {
+  height: 100%;
+  width: 50%;
+  margin-top: 3px;
+}
+.panelcolumn {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.panelcolumn .panel {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 500px;
+}
+.mvm-banned {
+  background-color: #ed6c63;
+  color: white;
+}
+.mvm-banned .panel-icon i.fa {
+  color: white;
+}
+.mvm-turn {
+  color: #ed6c63;
+}
