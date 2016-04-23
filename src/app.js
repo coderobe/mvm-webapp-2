@@ -34,6 +34,7 @@ app.do.select = {
     }else{
       location.hash = lobby
       app.notification.alert(1, "Joining "+lobby, 1)
+      if(app.page.current == "mapvote") location.reload()
       await psleep(500)
       app.user.lobby = lobby
       app.socket.send("JOIN "+lobby)

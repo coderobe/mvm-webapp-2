@@ -7856,20 +7856,21 @@
 	            }
 
 	            app.do.select.lobby(_lobby);
-	            _context.next = 16;
+	            _context.next = 17;
 	            break;
 
 	          case 10:
 	            location.hash = _lobby;
 	            app.notification.alert(1, "Joining " + _lobby, 1);
-	            _context.next = 14;
+	            if (app.page.current == "mapvote") location.reload();
+	            _context.next = 15;
 	            return psleep(500);
 
-	          case 14:
+	          case 15:
 	            app.user.lobby = _lobby;
 	            app.socket.send("JOIN " + _lobby);
 
-	          case 16:
+	          case 17:
 	          case "end":
 	            return _context.stop();
 	        }
