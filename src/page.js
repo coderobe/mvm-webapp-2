@@ -41,11 +41,10 @@ module.exports = {
       },
       methods: {
         votestart: function(){
-            app.socket.send("START")
+          app.socket.send("START")
         },
         votereset: function(){
-            app.socket.send("RESET")
-          },
+          app.socket.send("RESET")
         },
         changelobby: function(){
           app.do.select.lobby()
