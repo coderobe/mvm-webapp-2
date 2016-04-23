@@ -1,0 +1,55 @@
+.hero.is-dark .title {
+  color: black;
+}
+.hero.is-dark .subtitle {
+  color: dimgray;
+}
+.card {
+  width: 100%;
+  height: 100%;
+}
+.is-fullheight {
+  height: 100%;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.hero-content {
+  padding: 20px;
+}
+.hero-content {
+  display: block !important;
+  -webkit-box-flex: 0 !important;
+  -webkit-flex: 0 !important;
+  -ms-flex: 0 !important;
+  flex: 0 !important;
+  height: 100%;
+  width: 100%;
+}
+.load-spinner {
+  position: absolute;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 0px solid transparent;
+  z-index: 1001;
+  color: white;
+  background: rgba(0,0,0,0.5);
+}
+.load-spinner .fa {
+  font-size: 7em !important;
+}
+#notie-input-yes {
+  width: 100%;
+}
+#notie-input-no {
+  display: none;
+}
+.column {
+  overflow: auto;
+}
