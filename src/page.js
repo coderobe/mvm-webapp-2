@@ -41,7 +41,8 @@ module.exports = {
       },
       methods: {
         ban: function(event){
-          console.log(event)
+          let map = event.target.innerText
+          app.socket.send("VOTE "+map)
         },
         votestart: function(){
           app.socket.send("START")
