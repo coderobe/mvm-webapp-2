@@ -121,8 +121,8 @@ app.do.run = () => {
         let al = data.DESCRIPTION
         al = al.charAt(0) + al.toLowerCase().slice(1)
         app.notification.alert(2, al, 2)
-        await psleep("2 seconds")
         if(data.NUMBER >= 10 && data.NUMBER < 20){
+          await psleep("2 seconds")
           app.do.select.lobby()
         }
         break
