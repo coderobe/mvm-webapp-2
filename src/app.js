@@ -132,7 +132,7 @@ app.do.run = () => {
         let msgobj = {sender: data.SENDER, content: data.MESSAGE}
         app.page.object.messages.push(msgobj)
         Vue.nextTick(() => {
-          $(".chatlog")[0].scrollTop = $(".chatlog")[0].scrollHeight;
+          $(".chatlog")[0].scrollTop = $(".chatlog")[0].scrollHeight
         })
     }
   }
