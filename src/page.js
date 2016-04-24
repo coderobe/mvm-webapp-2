@@ -35,12 +35,31 @@ module.exports = {
       data: {
         content: require("./templates/mapvote.pug")(),
         maps: [],
+        maps_banned: [],
+        maps_available: [],
+        maps_view: 0,
         users: [],
         app: window.app,
         turn: null,
         messages: [],
       },
       methods: {
+        changeview: function(event){
+          console.log(event)
+          $(".changeview").removeClass("is-active")
+          $(event.target).addClass("is-active")
+          switch(event.target.innerText){
+            case "All":
+              this.maps_view = 0
+              break
+            case "Available":
+              this.maps_view = 1
+              break
+            case "Banned":
+              this.maps_view = 2
+              break
+          }
+        },
         sendmessage: function(event){
           console.log(event)
           let msg = event.target.value
@@ -69,14 +88,20 @@ module.exports = {
         },
         changemaps: function(m, mo) {
           let new_maps = []
+          let aiv_maps = []
+          let ban_maps = []
           _.each(m, function(v,k){
             new_maps.push([v, true])
+            aiv_maps.push([v, true])
           })
           _.each(mo, function(v,k){
             new_maps.push([v, false])
+            ban_maps.push([v, false])
           })
           new_maps = new_maps.sort((a,b) => a[0].localeCompare(b[0]))
           this.maps = new_maps
+          this.maps_available = aiv_maps.sort((a,b) => a[0].localeCompare(b[0]))
+          this.maps_banned = ban_maps.sort((a,b) => a[0].localeCompare(b[0]))
         }
       },
     },

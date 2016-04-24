@@ -30,10 +30,10 @@
         .panel
           p.panel-heading Maps
           p.panel-tabs
-            a.is-active All
-            a Available
-            a Banned
-          a.panel-block(v-for="map in maps", v-bind:class="{'mvm-banned': !map[1]}", v-on:click="ban")
+            a.changeview.is-active(v-on:click="changeview") All
+            a.changeview(v-on:click="changeview") Available
+            a.changeview(v-on:click="changeview") Banned
+          a.panel-block(v-for="map in (maps_view == 0) ? maps : ((maps_view == 1) ? maps_available : maps_banned)", v-bind:class="{'mvm-banned': !map[1]}", v-on:click="ban")
             span.panel-icon
               i.fa.fa-map
             | {{ map[0] }}

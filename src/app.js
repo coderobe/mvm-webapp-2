@@ -10,10 +10,6 @@ window.Cookie = require("./MuffinMan.js")
 window.notie = require("notie")
 window.psleep = require("psleep")
 
-notie.setOptions({
-  backgrouncClickDismiss: false,
-})
-
 window.app = {}
 app.notification = require("./notification.js")
 app.page = require("./page.js")
@@ -50,6 +46,7 @@ app.do.select = {
     if(_.isNull(username) || _.isEmpty(username)){
       app.do.select.username(username)
     }else{
+      Cookie.edit("mvm", {username: username})
       if(app.page.current == "mapvote"){
         location.hash = app.user.lobby
         location.reload()
@@ -86,6 +83,9 @@ app.do.run = () => {
     console.log(data)
     switch(type){
       case "NO_SESSION":
+        notie.setOptions({
+          backgrouncClickDismiss: false,
+        })
         let hash = window.location.hash.substring(1)
         let lobby = null
         if(!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby))
@@ -96,6 +96,9 @@ app.do.run = () => {
         app.do.select.lobby(lobby)
         break
       case "JOIN_SUCCESS":
+        notie.setOptions({
+          backgrouncClickDismiss: true,
+        })
         app.user.id = data.UID
         app.page.load("mapvote")
         break
@@ -139,6 +142,10 @@ app.do.run = () => {
     }
   }
 }
+
+notie.setOptions({
+  backgrouncClickDismiss: false,
+})
 
 app.page.load("loading")
 app.do.run()

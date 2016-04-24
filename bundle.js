@@ -7814,10 +7814,6 @@
 	window.notie = __webpack_require__(399);
 	window.psleep = __webpack_require__(400);
 
-	notie.setOptions({
-	  backgrouncClickDismiss: false
-	});
-
 	window.app = {};
 	app.notification = __webpack_require__(404);
 	app.page = __webpack_require__(405);
@@ -7910,30 +7906,32 @@
 	            }
 
 	            app.do.select.username(_username);
-	            _context2.next = 20;
+	            _context2.next = 21;
 	            break;
 
 	          case 10:
+	            Cookie.edit("mvm", { username: _username });
+
 	            if (!(app.page.current == "mapvote")) {
-	              _context2.next = 15;
+	              _context2.next = 16;
 	              break;
 	            }
 
 	            location.hash = app.user.lobby;
 	            location.reload();
-	            _context2.next = 20;
+	            _context2.next = 21;
 	            break;
 
-	          case 15:
+	          case 16:
 	            app.notification.alert(1, "Hello " + _username, 1);
-	            _context2.next = 18;
+	            _context2.next = 19;
 	            return psleep("1 second");
 
-	          case 18:
+	          case 19:
 	            app.user.name = _username;
 	            app.socket.send("IDENTIFY " + _username);
 
-	          case 20:
+	          case 21:
 	          case "end":
 	            return _context2.stop();
 	        }
@@ -7993,24 +7991,30 @@
 	            console.log(type);
 	            console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 14 : _context5.t0 === "SESSION" ? 17 : _context5.t0 === "ERROR" ? 19 : _context5.t0 === "MESSAGE" ? 27 : 31;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 15 : _context5.t0 === "SESSION" ? 19 : _context5.t0 === "ERROR" ? 21 : _context5.t0 === "MESSAGE" ? 29 : 33;
 	            break;
 
 	          case 8:
+	            notie.setOptions({
+	              backgrouncClickDismiss: false
+	            });
 	            hash = window.location.hash.substring(1);
 	            lobby = null;
 
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
 	            Cookie.edit("mvm", { username: data.USERNAME });
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 31);
+	            return _context5.abrupt("break", 33);
 
-	          case 14:
+	          case 15:
+	            notie.setOptions({
+	              backgrouncClickDismiss: true
+	            });
 	            app.user.id = data.UID;
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 31);
+	            return _context5.abrupt("break", 33);
 
-	          case 17:
+	          case 19:
 	            if (app.page.current = "mapvote") {
 	              users = [];
 
@@ -8030,29 +8034,29 @@
 	                app.page.object.turn = null;
 	              }
 	            }
-	            return _context5.abrupt("break", 31);
+	            return _context5.abrupt("break", 33);
 
-	          case 19:
+	          case 21:
 	            al = data.DESCRIPTION;
 
 	            al = al.charAt(0) + al.toLowerCase().slice(1);
 	            app.notification.alert(2, al, 2);
 
 	            if (!(data.NUMBER >= 10 && data.NUMBER < 20)) {
-	              _context5.next = 26;
+	              _context5.next = 28;
 	              break;
 	            }
 
-	            _context5.next = 25;
+	            _context5.next = 27;
 	            return psleep("2 seconds");
 
-	          case 25:
+	          case 27:
 	            app.do.select.lobby();
 
-	          case 26:
-	            return _context5.abrupt("break", 31);
+	          case 28:
+	            return _context5.abrupt("break", 33);
 
-	          case 27:
+	          case 29:
 	            if (_.isUndefined(data.SENDER)) data = { SENDER: null, MESSAGE: data };
 	            msgobj = { sender: data.SENDER, content: data.MESSAGE };
 
@@ -8061,7 +8065,7 @@
 	              $(".chatlog")[0].scrollTop = $(".chatlog")[0].scrollHeight;
 	            });
 
-	          case 31:
+	          case 33:
 	          case "end":
 	            return _context5.stop();
 	        }
@@ -8072,6 +8076,10 @@
 	    };
 	  }();
 	};
+
+	notie.setOptions({
+	  backgrouncClickDismiss: false
+	});
 
 	app.page.load("loading");
 	app.do.run();
@@ -11236,7 +11244,7 @@
 
 
 	// module
-	exports.push([module.id, ".hero.is-dark .title {\n  color: black;\n}\n.hero.is-dark .subtitle {\n  color: dimgray;\n}\n.card {\n  width: 100%;\n  height: 100%;\n}\n.is-fullheight {\n  height: 100%;\n}\nhtml, body {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  overflow: hidden;\n}\n.hero-content {\n  padding: 20px;\n}\n.hero-content {\n  display: block !important;\n  -webkit-box-flex: 0 !important;\n  -webkit-flex: 0 !important;\n  -ms-flex: 0 !important;\n  flex: 0 !important;\n  height: 100%;\n  width: 100%;\n}\n.load-spinner {\n  position: absolute;\n  display: flex;\n  height: 100%;\n  width: 100%;\n  align-items: center;\n  justify-content: center;\n  border: 0px solid transparent;\n  z-index: 1001;\n  color: white;\n  background: rgba(0,0,0,0.5);\n}\n.load-spinner .fa {\n  font-size: 7em !important;\n}\n#notie-input-yes {\n  width: 100%;\n}\n#notie-input-no {\n  display: none;\n}\n.column {\n  overflow: auto;\n}\n.uinfo-col {\n  padding: 0px !important;\n  overflow: hidden;\n}\n.uinfo-head {\n  padding-top: 2px !important;\n  padding-left: 5px !important;\n  padding-bottom: 2px !important;\n  padding-right: 5px !important;\n}\n.uinfo-body {\n  padding-top: 3px !important;\n  padding-bottom: 3px !important;\n  padding-left: 5px !important;\n  padding-right: 5px !important;\n}\n.buttonmix-left {\n  border-radius: 0px !important;\n  border-top-left-radius: 3px !important;\n  border-bottom-left-radius: 3px !important;\n  border-top-right-radius: 0px !important;\n  border-bottom-right-radius: 0px !important;\n}\n.buttonmix-right {\n  border-radius: 0px !important;\n  border-top-left-radius: 0px !important;\n  border-bottom-left-radius: 0px !important;\n  border-top-right-radius: 3px !important;\n  border-bottom-right-radius: 3px !important;\n}\n.actionbutton {\n  height: 100%;\n  width: 50%;\n  margin-top: 3px;\n}\n.panelcolumn {\n  height: 100%;\n  padding-right: 0px;\n  padding-left: 0px;\n}\n.panelcolumn .panel {\n  overflow-x: hidden;\n  overflow-y: scroll;\n  height: 100%;\n}\n.mvm-banned {\n  background-color: #ed6c63;\n  color: white;\n}\n.mvm-banned .panel-icon i.fa {\n  color: white;\n}\n.mvm-turn {\n  color: #ed6c63;\n}\n.media-content {\n  position: relative;\n  max-height: 100%;\n  height: 100%;\n}\n.columns:not(:first-of-type) {\n  height: calc(100% - 40.5px);\n}\n.columns .userlist {\n  height: calc((100% - 40.5px)/2);\n}\n.userlist:not(:first-of-type) {\n  position: absolute;\n  left: -1%;\n  top: calc(50% + 40.5px);\n  background-color: rgba(0,0,0,0.1);\n  border-radius: 3px;\n}\n.chatlog {\n  color: black;\n  height: 80%;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\ninput .chatbox {\n  position: absolute;\n  bottom: 5%;\n  width: 91%;\n}\n", ""]);
+	exports.push([module.id, ".hero.is-dark .title {\n  color: black;\n}\n.hero.is-dark .subtitle {\n  color: dimgray;\n}\n.card {\n  width: 100%;\n  height: 100%;\n}\n.is-fullheight {\n  height: 100%;\n}\nhtml, body {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  overflow: hidden;\n}\n.hero-content {\n  padding: 20px;\n}\n.hero-content {\n  display: block !important;\n  -webkit-box-flex: 0 !important;\n  -webkit-flex: 0 !important;\n  -ms-flex: 0 !important;\n  flex: 0 !important;\n  height: 100%;\n  width: 100%;\n}\n.load-spinner {\n  position: absolute;\n  display: flex;\n  height: 100%;\n  width: 100%;\n  align-items: center;\n  justify-content: center;\n  border: 0px solid transparent;\n  z-index: 1001;\n  color: white;\n  background: rgba(0,0,0,0.5);\n}\n.load-spinner .fa {\n  font-size: 7em !important;\n}\n#notie-input-yes {\n  width: 100%;\n}\n#notie-input-no {\n  display: none;\n}\n.column {\n  overflow: auto;\n}\n.uinfo-col {\n  padding: 0px !important;\n  overflow: hidden;\n}\n.uinfo-head {\n  padding-top: 2px !important;\n  padding-left: 5px !important;\n  padding-bottom: 2px !important;\n  padding-right: 5px !important;\n}\n.uinfo-body {\n  padding-top: 3px !important;\n  padding-bottom: 3px !important;\n  padding-left: 5px !important;\n  padding-right: 5px !important;\n}\n.buttonmix-left {\n  border-radius: 0px !important;\n  border-top-left-radius: 3px !important;\n  border-bottom-left-radius: 3px !important;\n  border-top-right-radius: 0px !important;\n  border-bottom-right-radius: 0px !important;\n}\n.buttonmix-right {\n  border-radius: 0px !important;\n  border-top-left-radius: 0px !important;\n  border-bottom-left-radius: 0px !important;\n  border-top-right-radius: 3px !important;\n  border-bottom-right-radius: 3px !important;\n}\n.actionbutton {\n  height: 100%;\n  width: 50%;\n  margin-top: 3px;\n}\n.panelcolumn {\n  height: 100%;\n  padding-right: 0px;\n  padding-left: 0px;\n}\n.panelcolumn .panel {\n  overflow-x: hidden;\n  overflow-y: scroll;\n  height: 100%;\n}\n.mvm-banned {\n  background-color: #ed6c63;\n  color: white;\n  pointer-events: none;\n}\n.mvm-banned .panel-icon i.fa {\n  color: white;\n}\n.mvm-turn {\n  color: #ed6c63;\n}\n.media-content {\n  position: relative;\n  max-height: 100%;\n  height: 100%;\n}\n.columns:not(:first-of-type) {\n  height: calc(100% - 40.5px);\n}\n.columns .userlist {\n  height: calc((100% - 40.5px)/2);\n}\n.userlist:not(:first-of-type) {\n  position: absolute;\n  left: -1%;\n  top: calc(50% + 40.5px);\n  background-color: rgba(0,0,0,0.1);\n  border-radius: 3px;\n}\n.chatlog {\n  color: black;\n  height: 80%;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\ninput .chatbox {\n  position: absolute;\n  bottom: 5%;\n  width: 91%;\n}\n", ""]);
 
 	// exports
 
@@ -39404,12 +39412,31 @@
 	      data: {
 	        content: __webpack_require__(409)(),
 	        maps: [],
+	        maps_banned: [],
+	        maps_available: [],
+	        maps_view: 0,
 	        users: [],
 	        app: window.app,
 	        turn: null,
 	        messages: []
 	      },
 	      methods: {
+	        changeview: function (event) {
+	          console.log(event);
+	          $(".changeview").removeClass("is-active");
+	          $(event.target).addClass("is-active");
+	          switch (event.target.innerText) {
+	            case "All":
+	              this.maps_view = 0;
+	              break;
+	            case "Available":
+	              this.maps_view = 1;
+	              break;
+	            case "Banned":
+	              this.maps_view = 2;
+	              break;
+	          }
+	        },
 	        sendmessage: function (event) {
 	          console.log(event);
 	          let msg = event.target.value;
@@ -39438,16 +39465,26 @@
 	        },
 	        changemaps: function (m, mo) {
 	          let new_maps = [];
+	          let aiv_maps = [];
+	          let ban_maps = [];
 	          _.each(m, function (v, k) {
 	            new_maps.push([v, true]);
+	            aiv_maps.push([v, true]);
 	          });
 	          _.each(mo, function (v, k) {
 	            new_maps.push([v, false]);
+	            ban_maps.push([v, false]);
 	          });
 	          new_maps = new_maps.sort(function (a, b) {
 	            return a[0].localeCompare(b[0]);
 	          });
 	          this.maps = new_maps;
+	          this.maps_available = aiv_maps.sort(function (a, b) {
+	            return a[0].localeCompare(b[0]);
+	          });
+	          this.maps_banned = ban_maps.sort(function (a, b) {
+	            return a[0].localeCompare(b[0]);
+	          });
 	        }
 	      }
 	    }
@@ -39747,7 +39784,7 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div v-if=\"app.user.id == 0\" class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns is-multiline\"><div class=\"column is-3 userlist\"><span v-for=\"user in users\"><span class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }}) </span><span class=\"title is-6\">{{ (user.id == turn) ? '<--' : '' }}</span><br></span></div><div class=\"column panelcolumn is-9\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div><div class=\"column is-3 userlist\"><div class=\"chatlog\"><span v-for=\"msg in messages\" class=\"title is-6\">{{ (msg.sender == null) ? '' : msg.sender+\": \" }}<span class=\"subtitle is-6\">{{ msg.content }}</span><br></span></div><input type=\"text\" placeholder=\"Chat here\" v-on:keyup.enter=\"sendmessage\" class=\"input chatbox\"></div></div></div></div>");;return buf.join("");
+	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div v-if=\"app.user.id == 0\" class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns is-multiline\"><div class=\"column is-3 userlist\"><span v-for=\"user in users\"><span class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }}) </span><span class=\"title is-6\">{{ (user.id == turn) ? '<--' : '' }}</span><br></span></div><div class=\"column panelcolumn is-9\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a v-on:click=\"changeview\" class=\"changeview is-active\">All</a><a v-on:click=\"changeview\" class=\"changeview\">Available</a><a v-on:click=\"changeview\" class=\"changeview\">Banned</a></p><a v-for=\"map in (maps_view == 0) ? maps : ((maps_view == 1) ? maps_available : maps_banned)\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div><div class=\"column is-3 userlist\"><div class=\"chatlog\"><span v-for=\"msg in messages\" class=\"title is-6\">{{ (msg.sender == null) ? '' : msg.sender+\": \" }}<span class=\"subtitle is-6\">{{ msg.content }}</span><br></span></div><input type=\"text\" placeholder=\"Chat here\" v-on:keyup.enter=\"sendmessage\" class=\"input chatbox\"></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },

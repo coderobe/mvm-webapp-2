@@ -101,6 +101,7 @@ html, body {
 .mvm-banned {
   background-color: #ed6c63;
   color: white;
+  pointer-events: none;
 }
 .mvm-banned .panel-icon i.fa {
   color: white;
