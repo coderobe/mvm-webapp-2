@@ -22,7 +22,7 @@
     .columns
       .column.is-3
         span(v-for="user in users")
-          span.title.is-6(v-bind:class="{'mvm-turn': (turn == user.id)}")
+          span.title.is-6(v-bind:class="{'mvm-turn': (turn == app.user.id)}")
             | {{ user.name }} 
           span.subtitle.is-6 ({{ user.id }})
           br
@@ -33,7 +33,7 @@
             a.is-active All
             a Available
             a Banned
-          a.panel-block(v-for="map in maps", v-bind:class="{'mvm-banned': !map[1]}")
+          a.panel-block(v-for="map in maps", v-bind:class="{'mvm-banned': !map[1]}", v-on:click="ban")
             span.panel-icon
               i.fa.fa-map
             | {{ map[0] }}

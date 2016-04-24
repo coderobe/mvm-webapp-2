@@ -7995,7 +7995,7 @@
 	            console.log(type);
 	            console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 15 : _context5.t0 === "ERROR" ? 17 : 21;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 16 : _context5.t0 === "ERROR" ? 18 : 22;
 	            break;
 
 	          case 8:
@@ -8004,32 +8004,37 @@
 
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 21);
+	            return _context5.abrupt("break", 22);
 
 	          case 13:
+	            app.user.id = data.UID;
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 21);
+	            return _context5.abrupt("break", 22);
 
-	          case 15:
+	          case 16:
 	            if (app.page.current = "mapvote") {
 	              users = [];
 
 	              _.each(data.MEMBER, function (value, key) {
 	                users.push({ name: value, id: key });
 	              });
+	              app.user.lobby = data.SESSION;
 	              app.page.object.users = users;
 	              app.page.object.changemaps(data.MAPS, data.MAPS_OUT);
+	              if (data.STATUS == "INSESSION") {
+	                app.page.object.turn = data.TURN;
+	              }
 	            }
-	            return _context5.abrupt("break", 21);
+	            return _context5.abrupt("break", 22);
 
-	          case 17:
+	          case 18:
 	            al = data.DESCRIPTION;
 
 	            al = al.charAt(0) + al.toLowerCase().slice(1);
 	            app.notification.alert(2, al, 2);
-	            return _context5.abrupt("break", 21);
+	            return _context5.abrupt("break", 22);
 
-	          case 21:
+	          case 22:
 	          case "end":
 	            return _context5.stop();
 	        }
@@ -39377,6 +39382,9 @@
 	        turn: null
 	      },
 	      methods: {
+	        ban: function (event) {
+	          console.log(event);
+	        },
 	        votestart: function () {
 	          app.socket.send("START");
 	        },
@@ -39700,7 +39708,7 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns\"><div class=\"column is-3\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': (turn == user.id)}\" class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column panelcolumn\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div></div></div></div>");;return buf.join("");
+	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns\"><div class=\"column is-3\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': (turn == app.user.id)}\" class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column panelcolumn\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },

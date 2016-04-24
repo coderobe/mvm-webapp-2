@@ -96,6 +96,7 @@ app.do.run = () => {
         app.do.select.lobby(lobby)
         break
       case "JOIN_SUCCESS":
+        app.user.id = data.UID
         app.page.load("mapvote")
         break
       case "SESSION":
@@ -104,8 +105,12 @@ app.do.run = () => {
           _.each(data.MEMBER, (value,key) => {
             users.push({name: value, id: key})
           })
+          app.user.lobby = data.SESSION
           app.page.object.users = users
           app.page.object.changemaps(data.MAPS, data.MAPS_OUT)
+          if(data.STATUS == "INSESSION"){
+            app.page.object.turn = data.TURN
+          }
         }
         break
       case "ERROR":

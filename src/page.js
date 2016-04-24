@@ -40,6 +40,9 @@ module.exports = {
         turn: null,
       },
       methods: {
+        ban: function(event){
+          console.log(event)
+        },
         votestart: function(){
           app.socket.send("START")
         },
