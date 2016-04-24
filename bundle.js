@@ -8027,6 +8027,8 @@
 	              }
 	              if (data.STATUS == "INSESSION") {
 	                app.page.object.turn = data.TURN;
+	              } else {
+	                app.page.object.turn = null;
 	              }
 	            }
 	            return _context5.abrupt("break", 30);

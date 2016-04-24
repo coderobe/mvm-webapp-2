@@ -114,6 +114,8 @@ app.do.run = () => {
           }
           if(data.STATUS == "INSESSION"){
             app.page.object.turn = data.TURN
+          }else{
+            app.page.object.turn = null
           }
         }
         break
