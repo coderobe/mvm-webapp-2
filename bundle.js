@@ -8057,7 +8057,7 @@
 
 	            app.page.object.messages.push(msgobj);
 	            Vue.nextTick(function () {
-	              $(".chatlog").animate({ scrollTop: $(document).height() }, 0);
+	              $(".chatlog")[0].scrollTop = $(".chatlog")[0].scrollHeight;
 	            });
 
 	          case 30:
