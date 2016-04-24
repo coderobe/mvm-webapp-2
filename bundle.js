@@ -7910,32 +7910,30 @@
 	            }
 
 	            app.do.select.username(_username);
-	            _context2.next = 21;
+	            _context2.next = 20;
 	            break;
 
 	          case 10:
-	            Cookie.edit("mvm", { username: _username });
-
 	            if (!(app.page.current == "mapvote")) {
-	              _context2.next = 16;
+	              _context2.next = 15;
 	              break;
 	            }
 
 	            location.hash = app.user.lobby;
 	            location.reload();
-	            _context2.next = 21;
+	            _context2.next = 20;
 	            break;
 
-	          case 16:
+	          case 15:
 	            app.notification.alert(1, "Hello " + _username, 1);
-	            _context2.next = 19;
+	            _context2.next = 18;
 	            return psleep("1 second");
 
-	          case 19:
+	          case 18:
 	            app.user.name = _username;
 	            app.socket.send("IDENTIFY " + _username);
 
-	          case 21:
+	          case 20:
 	          case "end":
 	            return _context2.stop();
 	        }
@@ -7995,7 +7993,7 @@
 	            console.log(type);
 	            console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 16 : _context5.t0 === "ERROR" ? 18 : _context5.t0 === "MESSAGE" ? 26 : 30;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 14 : _context5.t0 === "SESSION" ? 17 : _context5.t0 === "ERROR" ? 19 : _context5.t0 === "MESSAGE" ? 27 : 31;
 	            break;
 
 	          case 8:
@@ -8003,15 +8001,16 @@
 	            lobby = null;
 
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
+	            Cookie.edit("mvm", { username: data.USERNAME });
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 30);
+	            return _context5.abrupt("break", 31);
 
-	          case 13:
+	          case 14:
 	            app.user.id = data.UID;
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 30);
+	            return _context5.abrupt("break", 31);
 
-	          case 16:
+	          case 17:
 	            if (app.page.current = "mapvote") {
 	              users = [];
 
@@ -8031,29 +8030,29 @@
 	                app.page.object.turn = null;
 	              }
 	            }
-	            return _context5.abrupt("break", 30);
+	            return _context5.abrupt("break", 31);
 
-	          case 18:
+	          case 19:
 	            al = data.DESCRIPTION;
 
 	            al = al.charAt(0) + al.toLowerCase().slice(1);
 	            app.notification.alert(2, al, 2);
 
 	            if (!(data.NUMBER >= 10 && data.NUMBER < 20)) {
-	              _context5.next = 25;
+	              _context5.next = 26;
 	              break;
 	            }
 
-	            _context5.next = 24;
+	            _context5.next = 25;
 	            return psleep("2 seconds");
 
-	          case 24:
+	          case 25:
 	            app.do.select.lobby();
 
-	          case 25:
-	            return _context5.abrupt("break", 30);
-
 	          case 26:
+	            return _context5.abrupt("break", 31);
+
+	          case 27:
 	            if (_.isUndefined(data.SENDER)) data = { SENDER: null, MESSAGE: data };
 	            msgobj = { sender: data.SENDER, content: data.MESSAGE };
 
@@ -8062,7 +8061,7 @@
 	              $(".chatlog")[0].scrollTop = $(".chatlog")[0].scrollHeight;
 	            });
 
-	          case 30:
+	          case 31:
 	          case "end":
 	            return _context5.stop();
 	        }

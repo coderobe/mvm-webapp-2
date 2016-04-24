@@ -50,7 +50,6 @@ app.do.select = {
     if(_.isNull(username) || _.isEmpty(username)){
       app.do.select.username(username)
     }else{
-      Cookie.edit("mvm", {username: username})
       if(app.page.current == "mapvote"){
         location.hash = app.user.lobby
         location.reload()
@@ -93,6 +92,7 @@ app.do.run = () => {
           lobby = app.user.lobby
         else if(!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash))
           lobby = hash
+        Cookie.edit("mvm", {username: data.USERNAME})
         app.do.select.lobby(lobby)
         break
       case "JOIN_SUCCESS":
