@@ -39382,6 +39382,9 @@
 	        turn: null
 	      },
 	      methods: {
+	        turnhighlight: function (id) {
+	          return this.turn - 1 == id;
+	        },
 	        ban: function (event) {
 	          let map = event.target.innerText;
 	          app.socket.send("VOTE " + map);
@@ -39709,7 +39712,7 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns\"><div class=\"column is-3\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': (turn-1 == app.user.id)}\" class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column panelcolumn\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div></div></div></div>");;return buf.join("");
+	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns\"><div class=\"column is-3\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': turnhighlight(user.id)}\" class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column panelcolumn\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },

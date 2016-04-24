@@ -40,6 +40,9 @@ module.exports = {
         turn: null,
       },
       methods: {
+        turnhighlight: function(id){
+          return this.turn-1 == id
+        },
         ban: function(event){
           let map = event.target.innerText
           app.socket.send("VOTE "+map)

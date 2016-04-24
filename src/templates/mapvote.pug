@@ -22,7 +22,7 @@
     .columns
       .column.is-3
         span(v-for="user in users")
-          span.title.is-6(v-bind:class="{'mvm-turn': (turn-1 == app.user.id)}")
+          span.title.is-6(v-bind:class="{'mvm-turn': turnhighlight(user.id)}")
             | {{ user.name }} 
           span.subtitle.is-6 ({{ user.id }})
           br
