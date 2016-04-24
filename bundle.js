@@ -7995,7 +7995,7 @@
 	            console.log(type);
 	            console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 16 : _context5.t0 === "ERROR" ? 18 : _context5.t0 === "MESSAGE" ? 22 : 26;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 16 : _context5.t0 === "ERROR" ? 18 : _context5.t0 === "MESSAGE" ? 23 : 27;
 	            break;
 
 	          case 8:
@@ -8004,12 +8004,12 @@
 
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 26);
+	            return _context5.abrupt("break", 27);
 
 	          case 13:
 	            app.user.id = data.UID;
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 26);
+	            return _context5.abrupt("break", 27);
 
 	          case 16:
 	            if (app.page.current = "mapvote") {
@@ -8029,16 +8029,19 @@
 	                app.page.object.turn = data.TURN;
 	              }
 	            }
-	            return _context5.abrupt("break", 26);
+	            return _context5.abrupt("break", 27);
 
 	          case 18:
 	            al = data.DESCRIPTION;
 
 	            al = al.charAt(0) + al.toLowerCase().slice(1);
 	            app.notification.alert(2, al, 2);
-	            return _context5.abrupt("break", 26);
+	            if (data.NUMBER >= 10 && data.NUMBER < 20) {
+	              app.do.select.lobby();
+	            }
+	            return _context5.abrupt("break", 27);
 
-	          case 22:
+	          case 23:
 	            if (_.isUndefined(data.SENDER)) data = { SENDER: null, MESSAGE: data };
 	            msgobj = { sender: data.SENDER, content: data.MESSAGE };
 
@@ -8047,7 +8050,7 @@
 	              $(".chatlog").animate({ scrollTop: $(document).height() }, 0);
 	            });
 
-	          case 26:
+	          case 27:
 	          case "end":
 	            return _context5.stop();
 	        }

@@ -121,6 +121,9 @@ app.do.run = () => {
         let al = data.DESCRIPTION
         al = al.charAt(0) + al.toLowerCase().slice(1)
         app.notification.alert(2, al, 2)
+        if(data.NUMBER >= 10 && data.NUMBER < 20){
+          app.do.select.lobby()
+        }
         break
       case "MESSAGE":
         if(_.isUndefined(data.SENDER))
