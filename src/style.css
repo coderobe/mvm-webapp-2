@@ -116,3 +116,24 @@ html, body {
 .columns:not(:first-of-type) {
   height: calc(100% - 40.5px);
 }
+.columns .userlist {
+  height: calc((100% - 40.5px)/2);
+}
+.userlist:not(:first-of-type) {
+  position: absolute;
+  left: -1%;
+  top: calc(50% + 40.5px);
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 3px;
+}
+.chatlog {
+  color: black;
+  height: 80%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+input .chatbox {
+  position: absolute;
+  bottom: 5%;
+  width: 91%;
+}

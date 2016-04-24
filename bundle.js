@@ -7984,7 +7984,7 @@
 	  }));
 	  app.socket.onmessage = function () {
 	    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(message) {
-	      var type, data, hash, lobby, users, al;
+	      var type, data, hash, lobby, users, al, msgobj;
 	      return _regenerator2.default.wrap(function _callee5$(_context5) {
 	        while (1) switch (_context5.prev = _context5.next) {
 	          case 0:
@@ -7995,7 +7995,7 @@
 	            console.log(type);
 	            console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 16 : _context5.t0 === "ERROR" ? 18 : 22;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 13 : _context5.t0 === "SESSION" ? 16 : _context5.t0 === "ERROR" ? 18 : _context5.t0 === "MESSAGE" ? 22 : 26;
 	            break;
 
 	          case 8:
@@ -8004,12 +8004,12 @@
 
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 22);
+	            return _context5.abrupt("break", 26);
 
 	          case 13:
 	            app.user.id = data.UID;
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 22);
+	            return _context5.abrupt("break", 26);
 
 	          case 16:
 	            if (app.page.current = "mapvote") {
@@ -8020,21 +8020,34 @@
 	              });
 	              app.user.lobby = data.SESSION;
 	              app.page.object.users = users;
-	              app.page.object.changemaps(data.MAPS, data.MAPS_OUT);
+	              if (_.isUndefined(data.MAPS_OUT)) {
+	                app.page.object.changemaps(data.MAPS, []);
+	              } else {
+	                app.page.object.changemaps(data.MAPS, data.MAPS_OUT);
+	              }
 	              if (data.STATUS == "INSESSION") {
 	                app.page.object.turn = data.TURN;
 	              }
 	            }
-	            return _context5.abrupt("break", 22);
+	            return _context5.abrupt("break", 26);
 
 	          case 18:
 	            al = data.DESCRIPTION;
 
 	            al = al.charAt(0) + al.toLowerCase().slice(1);
 	            app.notification.alert(2, al, 2);
-	            return _context5.abrupt("break", 22);
+	            return _context5.abrupt("break", 26);
 
 	          case 22:
+	            if (_.isUndefined(data.SENDER)) data = { SENDER: null, MESSAGE: data };
+	            msgobj = { sender: data.SENDER, content: data.MESSAGE };
+
+	            app.page.object.messages.push(msgobj);
+	            Vue.nextTick(function () {
+	              $(".chatlog").animate({ scrollTop: $(document).height() }, 0);
+	            });
+
+	          case 26:
 	          case "end":
 	            return _context5.stop();
 	        }
@@ -11209,7 +11222,7 @@
 
 
 	// module
-	exports.push([module.id, ".hero.is-dark .title {\n  color: black;\n}\n.hero.is-dark .subtitle {\n  color: dimgray;\n}\n.card {\n  width: 100%;\n  height: 100%;\n}\n.is-fullheight {\n  height: 100%;\n}\nhtml, body {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  overflow: hidden;\n}\n.hero-content {\n  padding: 20px;\n}\n.hero-content {\n  display: block !important;\n  -webkit-box-flex: 0 !important;\n  -webkit-flex: 0 !important;\n  -ms-flex: 0 !important;\n  flex: 0 !important;\n  height: 100%;\n  width: 100%;\n}\n.load-spinner {\n  position: absolute;\n  display: flex;\n  height: 100%;\n  width: 100%;\n  align-items: center;\n  justify-content: center;\n  border: 0px solid transparent;\n  z-index: 1001;\n  color: white;\n  background: rgba(0,0,0,0.5);\n}\n.load-spinner .fa {\n  font-size: 7em !important;\n}\n#notie-input-yes {\n  width: 100%;\n}\n#notie-input-no {\n  display: none;\n}\n.column {\n  overflow: auto;\n}\n.uinfo-col {\n  padding: 0px !important;\n  overflow: hidden;\n}\n.uinfo-head {\n  padding-top: 2px !important;\n  padding-left: 5px !important;\n  padding-bottom: 2px !important;\n  padding-right: 5px !important;\n}\n.uinfo-body {\n  padding-top: 3px !important;\n  padding-bottom: 3px !important;\n  padding-left: 5px !important;\n  padding-right: 5px !important;\n}\n.buttonmix-left {\n  border-radius: 0px !important;\n  border-top-left-radius: 3px !important;\n  border-bottom-left-radius: 3px !important;\n  border-top-right-radius: 0px !important;\n  border-bottom-right-radius: 0px !important;\n}\n.buttonmix-right {\n  border-radius: 0px !important;\n  border-top-left-radius: 0px !important;\n  border-bottom-left-radius: 0px !important;\n  border-top-right-radius: 3px !important;\n  border-bottom-right-radius: 3px !important;\n}\n.actionbutton {\n  height: 100%;\n  width: 50%;\n  margin-top: 3px;\n}\n.panelcolumn {\n  height: 100%;\n  padding-right: 0px;\n  padding-left: 0px;\n}\n.panelcolumn .panel {\n  overflow-x: hidden;\n  overflow-y: scroll;\n  height: 100%;\n}\n.mvm-banned {\n  background-color: #ed6c63;\n  color: white;\n}\n.mvm-banned .panel-icon i.fa {\n  color: white;\n}\n.mvm-turn {\n  color: #ed6c63;\n}\n.media-content {\n  position: relative;\n  max-height: 100%;\n  height: 100%;\n}\n.columns:not(:first-of-type) {\n  height: calc(100% - 40.5px);\n}\n", ""]);
+	exports.push([module.id, ".hero.is-dark .title {\n  color: black;\n}\n.hero.is-dark .subtitle {\n  color: dimgray;\n}\n.card {\n  width: 100%;\n  height: 100%;\n}\n.is-fullheight {\n  height: 100%;\n}\nhtml, body {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  overflow: hidden;\n}\n.hero-content {\n  padding: 20px;\n}\n.hero-content {\n  display: block !important;\n  -webkit-box-flex: 0 !important;\n  -webkit-flex: 0 !important;\n  -ms-flex: 0 !important;\n  flex: 0 !important;\n  height: 100%;\n  width: 100%;\n}\n.load-spinner {\n  position: absolute;\n  display: flex;\n  height: 100%;\n  width: 100%;\n  align-items: center;\n  justify-content: center;\n  border: 0px solid transparent;\n  z-index: 1001;\n  color: white;\n  background: rgba(0,0,0,0.5);\n}\n.load-spinner .fa {\n  font-size: 7em !important;\n}\n#notie-input-yes {\n  width: 100%;\n}\n#notie-input-no {\n  display: none;\n}\n.column {\n  overflow: auto;\n}\n.uinfo-col {\n  padding: 0px !important;\n  overflow: hidden;\n}\n.uinfo-head {\n  padding-top: 2px !important;\n  padding-left: 5px !important;\n  padding-bottom: 2px !important;\n  padding-right: 5px !important;\n}\n.uinfo-body {\n  padding-top: 3px !important;\n  padding-bottom: 3px !important;\n  padding-left: 5px !important;\n  padding-right: 5px !important;\n}\n.buttonmix-left {\n  border-radius: 0px !important;\n  border-top-left-radius: 3px !important;\n  border-bottom-left-radius: 3px !important;\n  border-top-right-radius: 0px !important;\n  border-bottom-right-radius: 0px !important;\n}\n.buttonmix-right {\n  border-radius: 0px !important;\n  border-top-left-radius: 0px !important;\n  border-bottom-left-radius: 0px !important;\n  border-top-right-radius: 3px !important;\n  border-bottom-right-radius: 3px !important;\n}\n.actionbutton {\n  height: 100%;\n  width: 50%;\n  margin-top: 3px;\n}\n.panelcolumn {\n  height: 100%;\n  padding-right: 0px;\n  padding-left: 0px;\n}\n.panelcolumn .panel {\n  overflow-x: hidden;\n  overflow-y: scroll;\n  height: 100%;\n}\n.mvm-banned {\n  background-color: #ed6c63;\n  color: white;\n}\n.mvm-banned .panel-icon i.fa {\n  color: white;\n}\n.mvm-turn {\n  color: #ed6c63;\n}\n.media-content {\n  position: relative;\n  max-height: 100%;\n  height: 100%;\n}\n.columns:not(:first-of-type) {\n  height: calc(100% - 40.5px);\n}\n.columns .userlist {\n  height: calc((100% - 40.5px)/2);\n}\n.userlist:not(:first-of-type) {\n  position: absolute;\n  left: -1%;\n  top: calc(50% + 40.5px);\n  background-color: rgba(0,0,0,0.1);\n  border-radius: 3px;\n}\n.chatlog {\n  color: black;\n  height: 80%;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\ninput .chatbox {\n  position: absolute;\n  bottom: 5%;\n  width: 91%;\n}\n", ""]);
 
 	// exports
 
@@ -39379,9 +39392,17 @@
 	        maps: [],
 	        users: [],
 	        app: window.app,
-	        turn: null
+	        turn: null,
+	        messages: []
 	      },
 	      methods: {
+	        sendmessage: function (event) {
+	          console.log(event);
+	          let msg = event.target.value;
+	          if (_.isEmpty(msg)) return;
+	          app.socket.send("MESSAGE " + msg);
+	          event.target.value = "";
+	        },
 	        turnhighlight: function (id) {
 	          return this.turn - 1 == id;
 	        },
@@ -39712,7 +39733,7 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns\"><div class=\"column is-3\"><span v-for=\"user in users\"><span v-bind:class=\"{'mvm-turn': turnhighlight(user.id)}\" class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }})</span><br></span></div><div class=\"column panelcolumn\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div></div></div></div>");;return buf.join("");
+	buf.push("<div class=\"card card-content\"><div class=\"media-content\"><div class=\"columns\"><div class=\"column is-3\"><h1 class=\"title is-5\">Most Valuable Map</h1><h2 class=\"subtitle is-6\">ESL-Style CSGO Map Vote site</h2></div><div class=\"column uinfo-col\"><div class=\"message\"><div class=\"message-header uinfo-head\">Actions</div><div class=\"message-body uinfo-body\"><div class=\"columns\"><div class=\"column is-narrow\">Username: {{ app.user.name }} <a v-on:click=\"changename\">edit</a><br>Lobby: {{ app.user.lobby }} <a v-on:click=\"changelobby\">edit</a></div><div class=\"column\"></div><div v-if=\"app.user.id == 0\" class=\"column is-narrow\"><a v-on:click=\"votereset\" class=\"button buttonmix-left is-warning actionbutton\">Reset vote</a><a v-on:click=\"votestart\" class=\"button buttonmix-right is-success actionbutton\">Start voting</a></div></div></div></div></div></div><div class=\"columns is-multiline\"><div class=\"column is-3 userlist\"><span v-for=\"user in users\"><span class=\"title is-6\">{{ user.name }} </span><span class=\"subtitle is-6\">({{ user.id }}) </span><span class=\"title is-6\">{{ (user.id == turn) ? '<--' : '' }}</span><br></span></div><div class=\"column panelcolumn is-9\"><div class=\"panel\"><p class=\"panel-heading\">Maps</p><p class=\"panel-tabs\"><a class=\"is-active\">All</a><a>Available</a><a>Banned</a></p><a v-for=\"map in maps\" v-bind:class=\"{'mvm-banned': !map[1]}\" v-on:click=\"ban\" class=\"panel-block\"><span class=\"panel-icon\"><i class=\"fa fa-map\"></i></span>{{ map[0] }}</a></div></div><div class=\"column is-3 userlist\"><div class=\"chatlog\"><span v-for=\"msg in messages\" class=\"title is-6\">{{ (msg.sender == null) ? '' : msg.sender+\": \" }}<span class=\"subtitle is-6\">{{ msg.content }}</span><br></span></div><input type=\"text\" placeholder=\"Chat here\" v-on:keyup.enter=\"sendmessage\" class=\"input chatbox\"></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },

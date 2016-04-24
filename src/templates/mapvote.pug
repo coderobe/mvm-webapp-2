@@ -16,17 +16,17 @@
                 | Lobby: {{ app.user.lobby }} 
                 a(v-on:click="changelobby") edit
               .column
-              .column.is-narrow
+              .column.is-narrow(v-if="app.user.id == 0")
                 a.button.buttonmix-left.is-warning.actionbutton(v-on:click="votereset") Reset vote
                 a.button.buttonmix-right.is-success.actionbutton(v-on:click="votestart") Start voting
-    .columns
-      .column.is-3
+    .columns.is-multiline
+      .column.is-3.userlist
         span(v-for="user in users")
-          span.title.is-6(v-bind:class="{'mvm-turn': turnhighlight(user.id)}")
-            | {{ user.name }} 
-          span.subtitle.is-6 ({{ user.id }})
+          span.title.is-6 {{ user.name }} 
+          span.subtitle.is-6 ({{ user.id }}) 
+          span.title.is-6 {{ (user.id == turn) ? '<--' : '' }}
           br
-      .column.panelcolumn
+      .column.panelcolumn.is-9
         .panel
           p.panel-heading Maps
           p.panel-tabs
@@ -37,3 +37,10 @@
             span.panel-icon
               i.fa.fa-map
             | {{ map[0] }}
+      .column.is-3.userlist
+        .chatlog
+          span.title.is-6(v-for="msg in messages")
+            | {{ (msg.sender == null) ? '' : msg.sender+": " }}
+            span.subtitle.is-6 {{ msg.content }}
+            br
+        input.input.chatbox(type="text", placeholder="Chat here" v-on:keyup.enter="sendmessage")

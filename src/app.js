@@ -107,7 +107,11 @@ app.do.run = () => {
           })
           app.user.lobby = data.SESSION
           app.page.object.users = users
-          app.page.object.changemaps(data.MAPS, data.MAPS_OUT)
+          if(_.isUndefined(data.MAPS_OUT)){
+            app.page.object.changemaps(data.MAPS, [])
+          }else{
+            app.page.object.changemaps(data.MAPS, data.MAPS_OUT)
+          }
           if(data.STATUS == "INSESSION"){
             app.page.object.turn = data.TURN
           }
@@ -118,6 +122,14 @@ app.do.run = () => {
         al = al.charAt(0) + al.toLowerCase().slice(1)
         app.notification.alert(2, al, 2)
         break
+      case "MESSAGE":
+        if(_.isUndefined(data.SENDER))
+          data = {SENDER: null, MESSAGE: data}
+        let msgobj = {sender: data.SENDER, content: data.MESSAGE}
+        app.page.object.messages.push(msgobj)
+        Vue.nextTick(() => {
+          $(".chatlog").animate({ scrollTop: $(document).height() }, 0)
+        })
     }
   }
 }

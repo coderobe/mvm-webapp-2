@@ -38,8 +38,16 @@ module.exports = {
         users: [],
         app: window.app,
         turn: null,
+        messages: [],
       },
       methods: {
+        sendmessage: function(event){
+          console.log(event)
+          let msg = event.target.value
+          if(_.isEmpty(msg)) return
+          app.socket.send("MESSAGE "+msg)
+          event.target.value = ""
+        },
         turnhighlight: function(id){
           return this.turn-1 == id
         },
