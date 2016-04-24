@@ -114,5 +114,5 @@ html, body {
   height: 100%;
 }
 .columns:not(:first-of-type) {
-  height: calc(100% - 81px);
+  height: calc(100% - 40.5px);
 }

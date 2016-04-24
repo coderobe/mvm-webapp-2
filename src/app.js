@@ -111,7 +111,7 @@ app.do.run = () => {
       case "ERROR":
         let al = data.DESCRIPTION
         al = al.charAt(0) + al.toLowerCase().slice(1)
-        app.notification.alert(2, al, 1)
+        app.notification.alert(2, al, 2)
         break
     }
   }
