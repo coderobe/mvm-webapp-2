@@ -7814,6 +7814,9 @@
 	window.notie = __webpack_require__(399);
 	window.psleep = __webpack_require__(400);
 
+	//uncomment for debug output
+	//window.Debug = true
+
 	window.app = {};
 	app.notification = __webpack_require__(404);
 	app.page = __webpack_require__(405);
@@ -7988,10 +7991,10 @@
 	            type = _.keys(message)[0];
 	            data = message[type];
 
-	            console.log(type);
-	            console.log(data);
+	            if (window.Debug) console.log(type);
+	            if (window.Debug) console.log(data);
 	            _context5.t0 = type;
-	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 15 : _context5.t0 === "SESSION" ? 19 : _context5.t0 === "ERROR" ? 21 : _context5.t0 === "MESSAGE" ? 29 : 33;
+	            _context5.next = _context5.t0 === "NO_SESSION" ? 8 : _context5.t0 === "JOIN_SUCCESS" ? 15 : _context5.t0 === "SESSION" ? 20 : _context5.t0 === "ERROR" ? 22 : _context5.t0 === "MESSAGE" ? 30 : 34;
 	            break;
 
 	          case 8:
@@ -8004,7 +8007,7 @@
 	            if (!_.isNull(app.user.lobby) && !_.isEmpty(app.user.lobby)) lobby = app.user.lobby;else if (!_.isUndefined(hash) && !_.isNull(hash) && !_.isEmpty(hash)) lobby = hash;
 	            Cookie.edit("mvm", { username: data.USERNAME });
 	            app.do.select.lobby(lobby);
-	            return _context5.abrupt("break", 33);
+	            return _context5.abrupt("break", 34);
 
 	          case 15:
 	            notie.setOptions({
@@ -8012,9 +8015,12 @@
 	            });
 	            app.user.id = data.UID;
 	            app.page.load("mapvote");
-	            return _context5.abrupt("break", 33);
+	            Vue.nextTick(function () {
+	              if (!_.isUndefined(Cookie.get("mvm")) && !_.isUndefined(Cookie.get("mvm").mapview)) app.page.object.changecat(parseInt(Cookie.get("mvm").mapview));
+	            });
+	            return _context5.abrupt("break", 34);
 
-	          case 19:
+	          case 20:
 	            if (app.page.current = "mapvote") {
 	              users = [];
 
@@ -8034,29 +8040,29 @@
 	                app.page.object.turn = null;
 	              }
 	            }
-	            return _context5.abrupt("break", 33);
+	            return _context5.abrupt("break", 34);
 
-	          case 21:
+	          case 22:
 	            al = data.DESCRIPTION;
 
 	            al = al.charAt(0) + al.toLowerCase().slice(1);
 	            app.notification.alert(2, al, 2);
 
 	            if (!(data.NUMBER >= 10 && data.NUMBER < 20)) {
-	              _context5.next = 28;
+	              _context5.next = 29;
 	              break;
 	            }
 
-	            _context5.next = 27;
+	            _context5.next = 28;
 	            return psleep("2 seconds");
 
-	          case 27:
+	          case 28:
 	            app.do.select.lobby();
 
-	          case 28:
-	            return _context5.abrupt("break", 33);
-
 	          case 29:
+	            return _context5.abrupt("break", 34);
+
+	          case 30:
 	            if (_.isUndefined(data.SENDER)) data = { SENDER: null, MESSAGE: data };
 	            msgobj = { sender: data.SENDER, content: data.MESSAGE };
 
@@ -8065,7 +8071,7 @@
 	              $(".chatlog")[0].scrollTop = $(".chatlog")[0].scrollHeight;
 	            });
 
-	          case 33:
+	          case 34:
 	          case "end":
 	            return _context5.stop();
 	        }
@@ -32595,7 +32601,7 @@
 	module.exports = {
 	  jar: __webpack_require__(398),
 	  edit: function (cookie, json) {
-	    let curc = this.get();
+	    let curc = this.get(cookie);
 	    if (curc != undefined) {
 	      if (window.Debug) console.log(curc);
 	      if (window.Debug) console.log(json);
@@ -39422,23 +39428,45 @@
 	      },
 	      methods: {
 	        changeview: function (event) {
-	          console.log(event);
-	          $(".changeview").removeClass("is-active");
-	          $(event.target).addClass("is-active");
 	          switch (event.target.innerText) {
 	            case "All":
-	              this.maps_view = 0;
+	              this.changecat(0);
 	              break;
 	            case "Available":
-	              this.maps_view = 1;
+	              this.changecat(1);
 	              break;
 	            case "Banned":
-	              this.maps_view = 2;
+	              this.changecat(2);
 	              break;
 	          }
+	          Cookie.edit("mvm", { mapview: this.maps_view });
+	        },
+	        changecat: function (vn) {
+	          this.maps_view = vn;
+	          $(".changeview").removeClass("is-active");
+	          _.each($(".changeview"), function (elem, k) {
+	            let label = elem.innerText;
+	            switch (vn) {
+	              case 0:
+	                if (label == "All") {
+	                  $(elem).addClass("is-active");
+	                }
+	                break;
+	              case 1:
+	                if (label == "Available") {
+	                  $(elem).addClass("is-active");
+	                }
+	                break;
+	              case 2:
+	                if (label == "Banned") {
+	                  $(elem).addClass("is-active");
+	                }
+	                break;
+	            }
+	          });
 	        },
 	        sendmessage: function (event) {
-	          console.log(event);
+	          if (window.Debug) console.log(event);
 	          let msg = event.target.value;
 	          if (_.isEmpty(msg)) return;
 	          app.socket.send("MESSAGE " + msg);
@@ -39496,7 +39524,7 @@
 	    /*executes when the module is required, extends this.data*/
 	    _.each(module.exports.data, function (value, key) {
 	      module.exports.data[key] = _.extend(value, _this.preset);
-	      console.log(module.exports.data[key]);
+	      if (window.Debug) console.log(module.exports.data[key]);
 	    });
 	  }
 	};

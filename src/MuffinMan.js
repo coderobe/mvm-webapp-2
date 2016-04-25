@@ -1,7 +1,7 @@
 module.exports = {
   jar: require("cookies-js"),
   edit: function(cookie, json) {
-    let curc = this.get()
+    let curc = this.get(cookie)
     if(curc != undefined){
       if(window.Debug) console.log(curc)
       if(window.Debug) console.log(json)

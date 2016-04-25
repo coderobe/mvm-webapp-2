@@ -45,23 +45,45 @@ module.exports = {
       },
       methods: {
         changeview: function(event){
-          console.log(event)
-          $(".changeview").removeClass("is-active")
-          $(event.target).addClass("is-active")
           switch(event.target.innerText){
             case "All":
-              this.maps_view = 0
+              this.changecat(0)
               break
             case "Available":
-              this.maps_view = 1
+              this.changecat(1)
               break
             case "Banned":
-              this.maps_view = 2
+              this.changecat(2)
               break
           }
+          Cookie.edit("mvm", {mapview: this.maps_view})
+        },
+        changecat: function(vn){
+          this.maps_view = vn
+          $(".changeview").removeClass("is-active")
+          _.each($(".changeview"), (elem,k) => {
+            let label = elem.innerText
+            switch(vn){
+              case 0:
+                if(label == "All"){
+                  $(elem).addClass("is-active")
+                }
+                break
+              case 1:
+                if(label == "Available"){
+                  $(elem).addClass("is-active")
+                }
+                break
+              case 2:
+                if(label == "Banned"){
+                  $(elem).addClass("is-active")
+                }
+                break
+            }
+          })
         },
         sendmessage: function(event){
-          console.log(event)
+          if(window.Debug) console.log(event)
           let msg = event.target.value
           if(_.isEmpty(msg)) return
           app.socket.send("MESSAGE "+msg)
@@ -110,7 +132,7 @@ module.exports = {
   setup: function(){ /*executes when the module is required, extends this.data*/
     _.each(module.exports.data, (value, key) => {
       module.exports.data[key] = _.extend(value, this.preset)
-      console.log(module.exports.data[key])
+      if(window.Debug) console.log(module.exports.data[key])
     })
   },
 }

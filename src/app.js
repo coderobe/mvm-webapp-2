@@ -10,6 +10,9 @@ window.Cookie = require("./MuffinMan.js")
 window.notie = require("notie")
 window.psleep = require("psleep")
 
+//uncomment for debug output
+//window.Debug = true
+
 window.app = {}
 app.notification = require("./notification.js")
 app.page = require("./page.js")
@@ -79,8 +82,8 @@ app.do.run = () => {
     message = JSON.parse("{"+message.data+"}")
     let type = _.keys(message)[0]
     let data = message[type]
-    console.log(type)
-    console.log(data)
+    if(window.Debug) console.log(type)
+    if(window.Debug) console.log(data)
     switch(type){
       case "NO_SESSION":
         notie.setOptions({
@@ -101,6 +104,10 @@ app.do.run = () => {
         })
         app.user.id = data.UID
         app.page.load("mapvote")
+        Vue.nextTick(() => {
+          if(!_.isUndefined(Cookie.get("mvm")) && !_.isUndefined(Cookie.get("mvm").mapview))
+            app.page.object.changecat(parseInt(Cookie.get("mvm").mapview))
+        })
         break
       case "SESSION":
         if(app.page.current = "mapvote"){
